@@ -1,58 +1,42 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Oferta } from './shared/oferta.model';
+
+@Injectable()
 export class OfertasService {
 
-    public ofertas: Array<Oferta> = [
-        {
-            id: 1,
-            categoria: "restaurante",
-            titulo: "Super Burger",
-            descricao_oferta: "RodÃ­zio de Mini-hambÃºrger com opÃ§Ã£o de entrada.",
-            anunciante: "Original Burger",
-            valor: 29.90,
-            destaque: true,
-            imagens: [
-                { url: "/assets/ofertas/1/img1.jpg" },
-                { url: "/assets/ofertas/1/img2.jpg" },
-                { url: "/assets/ofertas/1/img3.jpg" },
-                { url: "/assets/ofertas/1/img4.jpg" }
-            ]
-        },
-        {
-            id: 2,
-            categoria: "restaurante",
-            titulo: "Cozinha Mexicana",
-            descricao_oferta: "AlmoÃ§o ou Jantar com RodÃ­zio Mexicano delicioso.",
-            anunciante: "Mexicana",
-            valor: 32.90,
-            destaque: true,
-            imagens: [
-                { url: "/assets/ofertas/2/img1.jpg" },
-                { url: "/assets/ofertas/2/img2.jpg" },
-                { url: "/assets/ofertas/2/img3.jpg" },
-                { url: "/assets/ofertas/2/img4.jpg" }
-            ]
+    constructor(private http: HttpClient) {}
 
-        },
-        {
-            id: 4,
-            categoria: "diversao",
-            titulo: "EstÃ¢ncia das Ã¡guas",
-            descricao_oferta: "DiversÃ£o garantida com piscinas, trilhas e muito mais.",
-            anunciante: "EstÃ¢ncia das Ã¡guas",
-            valor: 31.90,
-            destaque: true,
-            imagens: [
-                { url: "/assets/ofertas/3/img1.jpg" },
-                { url: "/assets/ofertas/3/img2.jpg" },
-                { url: "/assets/ofertas/3/img3.jpg" },
-                { url: "/assets/ofertas/3/img4.jpg" },
-                { url: "/assets/ofertas/3/img5.jpg" },
-                { url: "/assets/ofertas/3/img6.jpg" }
-            ]
-        }
-    ];
-
-    public getOfertas(): Array<Oferta> {
-        return this.ofertas;
+    public getOfertas(): Promise<Array<Oferta>> {
+        return this.http.get('http://localhost:3000/ofertas?destaque=true')
+            .toPromise()
+            .then((resposta: any) => resposta);
     }
+
+    // public getOfertas2(): Promise<Array<Oferta>> {
+    //     // tslint:disable-next-line: no-shadowed-variable
+    //     return new Promise((resolve, reject) => {
+    //         const correct = true;
+
+    //         if (correct) {
+    //             setTimeout(() => resolve(this.ofertas), 3000);
+    //         } else {
+    //             reject({ codigo_erro: 404, msg: 'Não foi possível obter dados!'});
+    //         }
+    //     })
+    //     .then((ofertas: Array<Oferta>) => {
+    //         console.log('Primeiro then');
+    //         return ofertas;
+    //     })
+    //     .then((ofertas: Array<Oferta>) => {
+    //         console.log('Segundo then');
+    //         return new Promise((resolve2, reject2) => {
+    //             setTimeout(() => { resolve2(ofertas); }, 3000);
+    //         });
+    //     })
+    //     .then((ofertas: Array<Oferta>) => {
+    //         console.log('Terceiro then com 3 segundos');
+    //         return ofertas;
+    //     });
+    // }
 }
